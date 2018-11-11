@@ -16,6 +16,9 @@ router.get("/register", function(req, res) {
 //handle sign up logic
 router.post("/register", function(req, res) {
     var newUser = new User({ username: req.body.username });
+    if(req.body.adminCode === 'yelpcampncr') {
+      newUser.isAdmin = true;
+    }
     User.register(newUser, req.body.password, function(err, user) {
         if (err) {
             console.log(err);
@@ -36,7 +39,9 @@ router.get("/login", function(req, res) {
 //handling login logic
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/campgrounds",
-    failureRedirect: "/login"
+    failureRedirect: "/login",
+    failureFlash: true,
+    successFlash: 'Welcome to YelpCamp!'
 }), function(req, res) {});
 
 // logout route

@@ -23,7 +23,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
-seedDB();
+//seedDB();
 
 app.use(require("express-session")({
     secret: "MUFC IS THE BEST  FOOTBALL CLUB",
