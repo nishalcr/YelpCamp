@@ -80,7 +80,7 @@ router.post("/register", upload.single('avatar'), function(req, res) {
         res.redirect("/campgrounds");
       });
     });
-  }, { moderation: "webpurify" });
+  });
 });
 
 //show login form
@@ -117,6 +117,7 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, done) {
+
       User.findOne({ email: req.body.email }, function(err, user) {
 
         if (err) console.log(err);

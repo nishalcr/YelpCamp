@@ -86,7 +86,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 
             res.redirect('/campgrounds/' + campground.id);
         });
-    }, { moderation: "webpurify" });
+    });
 });
 
 //NEW - show form to create new campground
@@ -130,7 +130,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), 
             if (req.file) {
                 try {
                     await cloudinary.v2.uploader.destroy(campground.imageId);
-                    var result = await cloudinary.v2.uploader.upload(req.file.path, { moderation: "webpurify" });
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
                     campground.imageId = result.public_id;
                     campground.image = result.secure_url;
                 }
