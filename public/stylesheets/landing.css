@@ -80,9 +80,12 @@ body {
     }
 }
 
-
 /* Older browser support - .no-cssanimations class added by modernizr */
 
 .no-cssanimations .slideshow li {
     opacity: 1;
+}
+
+.add-margin-top{
+    margin-top: 10px;
 }
