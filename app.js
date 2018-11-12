@@ -9,8 +9,10 @@ var express = require("express"),
     seedDB = require("./seeds"),
     flash = require("connect-flash"),
     passport = require("passport"),
+    cookieParser = require("cookie-parser"),
     LocalStrategy = require("passport-local"),
     User = require("./models/user"),
+    session = require("express-session"),
     methodOverride = require("method-override");
 
 var campgroundRoutes = require("./routes/campgrounds"),

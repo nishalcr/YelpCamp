@@ -10,58 +10,58 @@ var crypto = require("crypto");
 
 //root route
 router.get("/", function(req, res) {
-    res.render("landing");
+  res.render("landing");
 });
 
 // show register form
 router.get("/register", function(req, res) {
-    res.render("register", { page: 'register' });
+  res.render("register", { page: 'register' });
 });
 
 //handle sign up logic
 router.post("/register", function(req, res) {
-    var newUser = new User({
-        username: req.body.username,
-        firstname: req.body.firstName,
-        lastname: req.body.lastName,
-        email: req.body.email,
-        avatar: req.body.avatar
-    });
+  var newUser = new User({
+    username: req.body.username,
+    firstname: req.body.firstName,
+    lastname: req.body.lastName,
+    email: req.body.email,
+    avatar: req.body.avatar
+  });
 
-    if (req.body.adminCode === 'yelpcampncr') {
-        newUser.isAdmin = true;
+  if (req.body.adminCode === 'yelpcampncr') {
+    newUser.isAdmin = true;
+  }
+
+  User.register(newUser, req.body.password, function(err, user) {
+    if (err) {
+      console.log(err);
+      return res.render("register", { "error": err.message });
     }
-
-    User.register(newUser, req.body.password, function(err, user) {
-        if (err) {
-            console.log(err);
-            return res.render("register", { "error": err.message });
-        }
-        passport.authenticate("local")(req, res, function() {
-            req.flash("success", "Welcome to YelpCamp " + user.username);
-            res.redirect("/campgrounds");
-        });
+    passport.authenticate("local")(req, res, function() {
+      req.flash("success", "Welcome to YelpCamp " + user.username);
+      res.redirect("/campgrounds");
     });
+  });
 });
 
 //show login form
 router.get("/login", function(req, res) {
-    res.render("login", { page: 'login' });
+  res.render("login", { page: 'login' });
 });
 
 //handling login logic
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/campgrounds",
-    failureRedirect: "/login",
-    failureFlash: true,
-    successFlash: 'Welcome to YelpCamp!'
+  successRedirect: "/campgrounds",
+  failureRedirect: "/login",
+  failureFlash: true,
+  successFlash: 'Welcome to YelpCamp!'
 }), function(req, res) {});
 
 // logout route
 router.get("/logout", function(req, res) {
-    req.logout();
-    req.flash("success", "Logged you out!");
-    res.redirect("/campgrounds");
+  req.logout();
+  req.flash("success", "Logged you out!");
+  res.redirect("/campgrounds");
 });
 
 // forgot password
@@ -79,9 +79,9 @@ router.post('/forgot', function(req, res, next) {
     },
     function(token, done) {
       User.findOne({ email: req.body.email }, function(err, user) {
-        
-        if(err) console.log(err);
-        
+
+        if (err) console.log(err);
+
         if (!user) {
           req.flash('error', 'No account with that email address exists.');
           return res.redirect('/forgot');
@@ -97,7 +97,7 @@ router.post('/forgot', function(req, res, next) {
     },
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        service: 'Gmail',
         auth: {
           user: 'yelpcamp.ncr@gmail.com',
           pass: process.env.GMAILPW
@@ -126,13 +126,13 @@ router.post('/forgot', function(req, res, next) {
 
 router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-    if(err) console.log(err);
-    
+    if (err) console.log(err);
+
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('reset', {token: req.params.token});
+    res.render('reset', { token: req.params.token });
   });
 });
 
@@ -140,34 +140,35 @@ router.post('/reset/:token', function(req, res) {
   async.waterfall([
     function(done) {
       User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-        if(err) console.log(err);
-        
+        if (err) console.log(err);
+
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
           return res.redirect('back');
         }
-        if(req.body.password === req.body.confirm) {
+        if (req.body.password === req.body.confirm) {
           user.setPassword(req.body.password, function(err) {
-            if(err) console.log(err);
+            if (err) console.log(err);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
             user.save(function(err) {
-              if(err) console.log(err);
+              if (err) console.log(err);
               req.logIn(user, function(err) {
                 done(err, user);
               });
             });
           })
-        } else {
-            req.flash("error", "Passwords do not match.");
-            return res.redirect('back');
+        }
+        else {
+          req.flash("error", "Passwords do not match.");
+          return res.redirect('back');
         }
       });
     },
     function(user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        service: 'Gmail',
         auth: {
           user: 'yelpcamp.ncr@gmail.com',
           pass: process.env.GMAILPW
@@ -186,27 +187,27 @@ router.post('/reset/:token', function(req, res) {
       });
     }
   ], function(err) {
-      if(err) console.log(err);
-      res.redirect('/campgrounds');
+    if (err) console.log(err);
+    res.redirect('/campgrounds');
   });
 });
 
 // user profiles
 router.get("/users/:id", function(req, res) {
-    User.findById(req.params.id, function(err, foundUser) {
-        if (err) {
-            req.flash("error", "Something went wrong.");
-            return res.redirect("/");
-        }
+  User.findById(req.params.id, function(err, foundUser) {
+    if (err) {
+      req.flash("error", "Something went wrong.");
+      return res.redirect("/");
+    }
 
-        Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
-            if (err) {
-                req.flash("error", "Something went wrong.");
-                return res.redirect("/");
-            }
-            res.render("users/show", { user: foundUser, campgrounds: campgrounds });
-        });
+    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+      if (err) {
+        req.flash("error", "Something went wrong.");
+        return res.redirect("/");
+      }
+      res.render("users/show", { user: foundUser, campgrounds: campgrounds });
     });
+  });
 });
 
 module.exports = router;
