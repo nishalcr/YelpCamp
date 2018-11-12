@@ -6,6 +6,32 @@ var Campground = require("../models/campground");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+
+var imageFilter = function(req, file, cb) {
+  // accept image files only
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+    return cb(new Error('Only image files are allowed!'), false);
+  }
+  cb(null, true);
+};
+
+var upload = multer({ storage: storage, fileFilter: imageFilter })
+
+var cloudinary = require('cloudinary');
+
+cloudinary.config({
+  cloud_name: 'yelpcamp-ncr',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 
 
 //root route
@@ -18,30 +44,43 @@ router.get("/register", function(req, res) {
   res.render("register", { page: 'register' });
 });
 
-//handle sign up logic
-router.post("/register", function(req, res) {
-  var newUser = new User({
-    username: req.body.username,
-    firstname: req.body.firstName,
-    lastname: req.body.lastName,
-    email: req.body.email,
-    avatar: req.body.avatar
-  });
 
-  if (req.body.adminCode === 'yelpcampncr') {
-    newUser.isAdmin = true;
-  }
-
-  User.register(newUser, req.body.password, function(err, user) {
+router.post("/register", upload.single('avatar'), function(req, res) {
+  cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
     if (err) {
-      console.log(err);
-      return res.render("register", { "error": err.message });
+      req.flash('error', err.message);
+      return res.redirect('back');
     }
-    passport.authenticate("local")(req, res, function() {
-      req.flash("success", "Welcome to YelpCamp " + user.username);
-      res.redirect("/campgrounds");
+    // add cloudinary url for the image to the campground object under image property
+    req.body.avatar = result.secure_url;
+    // add image's public_id to campground object
+    req.body.avatarId = result.public_id;
+
+    var newUser = new User({
+      username: req.body.username,
+      firstname: req.body.firstName,
+      lastname: req.body.lastName,
+      email: req.body.email,
+      avatar: req.body.avatar,
+      avatarId: req.body.avatar
     });
-  });
+
+    if (req.body.adminCode === 'yelpcampncr') {
+      newUser.isAdmin = true;
+    }
+
+    User.register(newUser, req.body.password, function(err, user) {
+      if (err) {
+        console.log(err);
+        return res.render("register", { "error": err.message });
+      }
+
+      passport.authenticate("local")(req, res, function() {
+        req.flash("success", "Welcome to YelpCamp " + user.username);
+        res.redirect("/campgrounds");
+      });
+    });
+  }, { moderation: "webpurify" });
 });
 
 //show login form

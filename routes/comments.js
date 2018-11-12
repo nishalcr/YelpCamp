@@ -68,7 +68,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
 
 // COMMENT UPDATE
 router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res) {
-    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+    Comment.findOneAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
         if (err) {
             res.redirect("back");
         }
@@ -81,7 +81,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res) 
 // COMMENT DESTROY ROUTE
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res) {
     //findByIdAndRemove
-    Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+    Comment.findOneAndRemove(req.params.comment_id, function(err) {
         if (err) {
             res.redirect("back");
         }
