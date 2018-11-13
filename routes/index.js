@@ -58,8 +58,8 @@ router.post("/register", upload.single('avatar'), function(req, res) {
 
     var newUser = new User({
       username: req.body.username,
-      firstname: req.body.firstName,
-      lastname: req.body.lastName,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       avatar: req.body.avatar,
       avatarId: req.body.avatar
