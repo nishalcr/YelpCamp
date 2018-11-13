@@ -9,12 +9,12 @@ var crypto = require("crypto");
 var multer = require('multer');
 
 var storage = multer.diskStorage({
-  filename: function(req, file, callback) {
+  filename: function (req, file, callback) {
     callback(null, Date.now() + file.originalname);
   }
 });
 
-var imageFilter = function(req, file, cb) {
+var imageFilter = function (req, file, cb) {
   // accept image files only
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
     return cb(new Error('Only image files are allowed!'), false);
@@ -35,18 +35,18 @@ cloudinary.config({
 
 
 //root route
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   res.render("landing");
 });
 
 // show register form
-router.get("/register", function(req, res) {
+router.get("/register", function (req, res) {
   res.render("register", { page: 'register' });
 });
 
 
-router.post("/register", upload.single('avatar'), function(req, res) {
-  cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+router.post("/register", upload.single('avatar'), function (req, res) {
+  cloudinary.v2.uploader.upload(req.file.path, function (err, result) {
     if (err) {
       req.flash('error', err.message);
       return res.redirect('back');
@@ -69,13 +69,13 @@ router.post("/register", upload.single('avatar'), function(req, res) {
       newUser.isAdmin = true;
     }
 
-    User.register(newUser, req.body.password, function(err, user) {
+    User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
         return res.render("register", { "error": err.message });
       }
 
-      passport.authenticate("local")(req, res, function() {
+      passport.authenticate("local")(req, res, function () {
         req.flash("success", "Welcome to YelpCamp " + user.username);
         res.redirect("/campgrounds");
       });
@@ -84,7 +84,7 @@ router.post("/register", upload.single('avatar'), function(req, res) {
 });
 
 //show login form
-router.get("/login", function(req, res) {
+router.get("/login", function (req, res) {
   res.render("login", { page: 'login' });
 });
 
@@ -94,31 +94,31 @@ router.post("/login", passport.authenticate("local", {
   failureRedirect: "/login",
   failureFlash: true,
   successFlash: 'Welcome to YelpCamp!'
-}), function(req, res) {});
+}), function (req, res) {});
 
 // logout route
-router.get("/logout", function(req, res) {
+router.get("/logout", function (req, res) {
   req.logout();
   req.flash("success", "Logged you out!");
   res.redirect("/campgrounds");
 });
 
 // forgot password
-router.get('/forgot', function(req, res) {
+router.get('/forgot', function (req, res) {
   res.render('forgot');
 });
 
-router.post('/forgot', function(req, res, next) {
+router.post('/forgot', function (req, res, next) {
   async.waterfall([
-    function(done) {
-      crypto.randomBytes(20, function(err, buf) {
+    function (done) {
+      crypto.randomBytes(20, function (err, buf) {
         var token = buf.toString('hex');
         done(err, token);
       });
     },
-    function(token, done) {
+    function (token, done) {
 
-      User.findOne({ email: req.body.email }, function(err, user) {
+      User.findOne({ email: req.body.email }, function (err, user) {
 
         if (err) console.log(err);
 
@@ -130,12 +130,12 @@ router.post('/forgot', function(req, res, next) {
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 300000; // 5 minutes
 
-        user.save(function(err) {
+        user.save(function (err) {
           done(err, token, user);
         });
       });
     },
-    function(token, user, done) {
+    function (token, user, done) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -152,20 +152,20 @@ router.post('/forgot', function(req, res, next) {
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       };
-      smtpTransport.sendMail(mailOptions, function(err) {
+      smtpTransport.sendMail(mailOptions, function (err) {
         console.log('mail sent');
         req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
         done(err, 'done');
       });
     }
-  ], function(err) {
+  ], function (err) {
     if (err) return next(err);
     res.redirect('/forgot');
   });
 });
 
-router.get('/reset/:token', function(req, res) {
-  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+router.get('/reset/:token', function (req, res) {
+  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
     if (err) console.log(err);
 
     if (!user) {
@@ -176,10 +176,10 @@ router.get('/reset/:token', function(req, res) {
   });
 });
 
-router.post('/reset/:token', function(req, res) {
+router.post('/reset/:token', function (req, res) {
   async.waterfall([
-    function(done) {
-      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+    function (done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
         if (err) console.log(err);
 
         if (!user) {
@@ -187,14 +187,14 @@ router.post('/reset/:token', function(req, res) {
           return res.redirect('back');
         }
         if (req.body.password === req.body.confirm) {
-          user.setPassword(req.body.password, function(err) {
+          user.setPassword(req.body.password, function (err) {
             if (err) console.log(err);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
-            user.save(function(err) {
+            user.save(function (err) {
               if (err) console.log(err);
-              req.logIn(user, function(err) {
+              req.logIn(user, function (err) {
                 done(err, user);
               });
             });
@@ -206,7 +206,7 @@ router.post('/reset/:token', function(req, res) {
         }
       });
     },
-    function(user, done) {
+    function (user, done) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -221,26 +221,26 @@ router.post('/reset/:token', function(req, res) {
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
-      smtpTransport.sendMail(mailOptions, function(err) {
+      smtpTransport.sendMail(mailOptions, function (err) {
         req.flash('success', 'Success! Your password has been changed.');
         done(err);
       });
     }
-  ], function(err) {
+  ], function (err) {
     if (err) console.log(err);
     res.redirect('/campgrounds');
   });
 });
 
 // user profiles
-router.get("/users/:id", function(req, res) {
-  User.findById(req.params.id, function(err, foundUser) {
+router.get("/users/:id", function (req, res) {
+  User.findById(req.params.id, function (err, foundUser) {
     if (err) {
       req.flash("error", "Something went wrong.");
       return res.redirect("/");
     }
 
-    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+    Campground.find().where('author.id').equals(foundUser._id).exec(function (err, campgrounds) {
       if (err) {
         req.flash("error", "Something went wrong.");
         return res.redirect("/");
