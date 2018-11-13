@@ -85,16 +85,31 @@ router.post("/register", upload.single('avatar'), function (req, res) {
 
 //show login form
 router.get("/login", function (req, res) {
-  res.render("login", { page: 'login' });
+  res.render("login", { page: "login" });
 });
 
 //handling login logic
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/campgrounds",
-  failureRedirect: "/login",
-  failureFlash: true,
-  successFlash: 'Welcome to YelpCamp!'
-}), function (req, res) {});
+router.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+
+    if (err) return next(err);
+
+    if (!user) {
+      req.flash("error", "Invalid username or password!");
+      return res.redirect('/login');
+    }
+
+    req.logIn(user, function (err) {
+      if (err) return next(err);
+
+      var redirectTo = req.session.redirectTo ? req.session.redirectTo : "/campgrounds";
+      delete req.session.redirectTo;
+
+      req.flash("success", "Welcome to YelpCamp!");
+      res.redirect(redirectTo);
+    });
+  })(req, res, next);
+});
 
 // logout route
 router.get("/logout", function (req, res) {
@@ -245,7 +260,7 @@ router.get("/users/:id", function (req, res) {
         req.flash("error", "Something went wrong.");
         return res.redirect("/");
       }
-      res.render("users/show", { user: foundUser, campgrounds: campgrounds });
+      res.render("users/show", { user: foundUser, campgrounds: campgrounds, page: "userProfile" });
     });
   });
 });
