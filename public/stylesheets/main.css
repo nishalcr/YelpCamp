@@ -13,3 +13,7 @@
 .add-margin-top {
     margin-top: 10px;
 }
+
+.checked {
+    color: orange;
+}

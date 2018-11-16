@@ -310,7 +310,7 @@ router.get('/notifications', middleware.isLoggedIn, async function (req, res) {
       options: { sort: { "_id": -1 } }
     }).exec();
     let allNotifications = user.notifications;
-    res.render('notifications/index', { allNotifications });
+    res.render('notifications/index', { allNotifications, page: "notify" });
   }
   catch (err) {
     req.flash('error', err.message);

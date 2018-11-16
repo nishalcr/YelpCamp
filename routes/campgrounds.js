@@ -3,6 +3,7 @@ var router = express.Router();
 var Campground = require("../models/campground");
 var User = require("../models/user");
 var Notification = require("../models/notification");
+var Review = require("../models/review");
 var middleware = require("../middleware");
 var multer = require('multer');
 
@@ -91,6 +92,7 @@ router.get("/", function (req, res) {
 //     });
 // });
 
+
 //CREATE - add new campground to DB
 router.post("/", middleware.isLoggedIn, upload.single('image'), async function (req, res) {
     // add author to campground
@@ -113,7 +115,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
         let newNotification = {
             username: req.user.username,
             campgroundId: campground.id
-        }
+        };
 
         for (const follower of user.followers) {
             let notification = await Notification.create(newNotification);
@@ -134,13 +136,16 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
     res.render("campgrounds/new");
 });
 
+
 // SHOW - shows more info about one campground
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
-        if (err || !foundCampground) {
-            req.flash("error", "Campground not found");
-            res.redirect("back");
+    Campground.findById(req.params.id).populate("comments").populate({
+        path: "reviews",
+        options: { sort: { createdAt: -1 } }
+    }).exec(function (err, foundCampground) {
+        if (err) {
+            console.log(err);
         }
         else {
             //render show template with that campground
@@ -148,6 +153,7 @@ router.get("/:id", function (req, res) {
         }
     });
 });
+
 
 // EDIT CAMPGROUND ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, function (req, res) {
@@ -159,8 +165,12 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function (req, res)
     });
 });
 
+
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function (req, res) {
+
+    delete req.body.campground.rating;
+
     Campground.findById(req.params.id, async function (err, campground) {
         if (err) {
             req.flash("error", err.message);
@@ -199,7 +209,9 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
         }
         try {
             await cloudinary.v2.uploader.destroy(campground.imageId);
+            await Review.remove({ "_id": { $in: campground.reviews } });
             campground.remove();
+
             req.flash('success', 'Campground deleted successfully!');
             res.redirect('/campgrounds');
         }
