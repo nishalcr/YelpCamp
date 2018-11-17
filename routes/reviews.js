@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router({ mergeParams: true });
-var Campground = require("../models/campground");
-var Review = require("../models/review");
-var middleware = require("../middleware");
+var express = require("express"),
+    router = express.Router({ mergeParams: true }),
+    Campground = require("../models/campground"),
+    Review = require("../models/review"),
+    middleware = require("../middleware");
 
 // Reviews Index
 router.get("/", function (req, res) {

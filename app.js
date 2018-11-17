@@ -4,8 +4,6 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    Campground = require("./models/campground"),
-    Comment = require("./models/comment"),
     seedDB = require("./seeds"),
     flash = require("connect-flash"),
     passport = require("passport"),
@@ -22,10 +20,12 @@ var campgroundRoutes = require("./routes/campgrounds"),
 
 
 mongoose.connect('mongodb://localhost:27017/yelp_camp_final', { useNewUrlParser: true });
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(cookieParser('secret'));
 app.use(flash());
 
 //seedDB();

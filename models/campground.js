@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Review = require("./review");
+//var Review = require("./review");
 
 var campgroundSchema = new mongoose.Schema({
     name: String,
