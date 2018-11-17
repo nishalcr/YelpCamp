@@ -5,7 +5,7 @@ var express = require("express"),
     Notification = require("../models/notification"),
     Review = require("../models/review"),
     middleware = require("../middleware"),
-    multer = require('multer');
+    multer = require("multer");
 
 var storage = multer.diskStorage({
     filename: function (req, file, callback) {
@@ -16,17 +16,17 @@ var storage = multer.diskStorage({
 var imageFilter = function (req, file, cb) {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        return cb(new Error('Only image files are allowed!'), false);
+        return cb(new Error("Only image files are allowed!"), false);
     }
     cb(null, true);
 };
 
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
-var cloudinary = require('cloudinary');
+var cloudinary = require("cloudinary");
 
 cloudinary.config({
-    cloud_name: 'yelpcamp-ncr',
+    cloud_name: "yelpcamp-ncr",
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
@@ -72,7 +72,7 @@ router.get("/", function (req, res) {
     var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;
     if (req.query.search) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        const regex = new RegExp(escapeRegex(req.query.search), "gi");
         Campground.find({ name: regex }).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
             Campground.countDocuments({ name: regex }).exec(function (err, count) {
                 if (err) {
@@ -88,7 +88,9 @@ router.get("/", function (req, res) {
                         current: pageNumber,
                         pages: Math.ceil(count / perPage),
                         noMatch: noMatch,
-                        search: req.query.search
+                        search: req.query.search,
+                        page: "campgrounds",
+                        showSearchForm: true
                     });
                 }
             });
@@ -107,12 +109,20 @@ router.get("/", function (req, res) {
                         current: pageNumber,
                         pages: Math.ceil(count / perPage),
                         noMatch: noMatch,
-                        search: false
+                        search: false,
+                        page: "campgrounds",
+                        showSearchForm: true
                     });
                 }
             });
         });
     }
+});
+
+
+//NEW - show form to create new campground
+router.get("/new", middleware.isLoggedIn, function (req, res) {
+    res.render("campgrounds/new");
 });
 
 
@@ -145,7 +155,7 @@ router.get("/", function (req, res) {
 
 
 //CREATE - add new campground to DB
-router.post("/", middleware.isLoggedIn, upload.single('image'), async function (req, res) {
+router.post("/", middleware.isLoggedIn, upload.single("image"), async function (req, res) {
     req.body.campground.description = req.sanitize(req.body.campground.description);
     // add author to campground
     req.body.campground.author = {
@@ -177,15 +187,9 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
         res.redirect(`/campgrounds/${campground.id}`);
     }
     catch (err) {
-        req.flash('error', err.message);
-        return res.redirect('back');
+        req.flash("error", err.message);
+        return res.redirect("back");
     }
-});
-
-
-//NEW - show form to create new campground
-router.get("/new", middleware.isLoggedIn, function (req, res) {
-    res.render("campgrounds/new");
 });
 
 
@@ -201,7 +205,7 @@ router.get("/:id", function (req, res) {
         }
         else {
             //render show template with that campground
-            res.render("campgrounds/show", { campground: foundCampground });
+            res.render("campgrounds/show", { campground: foundCampground, showSearchForm: true });
         }
     });
 });
@@ -219,7 +223,7 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function (req, res)
 
 
 // UPDATE CAMPGROUND ROUTE
-router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function (req, res) {
+router.put("/:id", middleware.checkCampgroundOwnership, upload.single("image"), function (req, res) {
 
     delete req.body.campground.rating;
 
@@ -264,8 +268,8 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
             await Review.remove({ "_id": { $in: campground.reviews } });
             campground.remove();
 
-            req.flash('success', 'Campground deleted successfully!');
-            res.redirect('/campgrounds');
+            req.flash("success", "Campground deleted successfully!");
+            res.redirect("/campgrounds");
         }
         catch (err) {
             if (err) {

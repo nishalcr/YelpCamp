@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        res.render("reviews/index", { campground: campground });
+        res.render("reviews/index", { campground: campground, showSearchForm: true });
     });
 });
 

@@ -42,7 +42,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                     campground.comments.push(comment);
                     campground.save();
                     req.flash("success", "Successfully added comment");
-                    res.redirect('/campgrounds/' + campground._id);
+                    res.redirect("/campgrounds/" + campground._id);
                 }
             });
         }
@@ -71,7 +71,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req,
 // COMMENT UPDATE
 router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
 
-    // req.body.comment.text = req.sanitize(req.body.comment.text);
+    req.body.comment.text = req.sanitize(req.body.comment.text);
 
     Comment.findOneAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {

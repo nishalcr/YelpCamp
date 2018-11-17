@@ -20,14 +20,14 @@ var UserSchema = new mongoose.Schema({
     notifications: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Notification'
+            ref: "Notification"
     	}
     ],
 
     followers: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: "User"
     	}
     ]
 });

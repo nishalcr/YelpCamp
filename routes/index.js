@@ -6,7 +6,7 @@ var express = require("express"),
   async = require("async"),
   nodemailer = require("nodemailer"),
   crypto = require("crypto"),
-  multer = require('multer'),
+  multer = require("multer"),
   Notification = require("../models/notification"),
   middleware = require("../middleware");
 
@@ -281,7 +281,7 @@ router.get("/users/:id", function (req, res) {
         req.flash("error", "Something went wrong.");
         return res.redirect("/");
       }
-      res.render("users/show", { user: foundUser, campgrounds: campgrounds, page: "userProfile" });
+      res.render("users/show", { user: foundUser, campgrounds: campgrounds, page: "userProfile", showSearchForm: true });
     });
   });
 });
@@ -310,7 +310,7 @@ router.get('/notifications', middleware.isLoggedIn, async function (req, res) {
       options: { sort: { "_id": -1 } }
     }).exec();
     let allNotifications = user.notifications;
-    res.render('notifications/index', { allNotifications, page: "notify" });
+    res.render('notifications/index', { allNotifications, page: "notify", showSearchForm: true });
   }
   catch (err) {
     req.flash('error', err.message);
@@ -331,7 +331,6 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function (req, res
     res.redirect('back');
   }
 });
-
 
 
 module.exports = router;

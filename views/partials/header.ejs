@@ -26,20 +26,22 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/campgrounds">Home</a></li>
+                    <li class="<%= typeof page !== "undefined" && page === "campgrounds" ? "active" : "" %>"><a href="/campgrounds">Home</a></li>
                 </ul>
+                <% if( typeof showSearchForm !== "undefined" && showSearchForm === true ){ %>
                 <form action="/campgrounds" method="GET" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input type="text" name="search" placeholder="Campground search..." class="form-control add-margin-top">
                         <input type="submit" value="Search" class="btn btn-default add-margin-top">
                     </div>
                 </form>
+                <% } %>
                 <ul class="nav navbar-nav navbar-right">
                     <% if(!currentUser){ %>
-                        <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
-                        <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
+                        <li class="<%= typeof page !== "undefined" && page === "login" ? "active" : "" %>"><a href="/login">Login</a></li>
+                        <li class="<%= typeof page !== "undefined" && page === "register" ? "active" : "" %>"><a href="/register">Sign Up</a></li>
                     <% } else { %>
-                        <li class="<%= typeof page !== 'undefined' && page === 'notify' ? 'active' : '' %> dropdown">
+                        <li class="<%= typeof page !== "undefined" && page === "notify" ? "active" : "" %> dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 Notifications <span class="badge"><%= notifications.length %></span>
                             </a>
@@ -57,7 +59,7 @@
                              </ul>
                         </li>
 
-                        <li class="<%= typeof page !== 'undefined' && page === 'userProfile' ? 'active' : '' %>"><a href="/users/<%= currentUser._id %>">Profile</a></li>
+                        <li class="<%= typeof page !== "undefined" && page === "userProfile" ? "active" : "" %>"><a href="/users/<%= currentUser._id %>">Profile</a></li>
                         <li><a href="#">Signed In As <%= currentUser.username %></a></li>
                         <li><a href="/logout">Logout</a></li>
                     <% } %>
