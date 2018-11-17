@@ -33,6 +33,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                     console.log(err);
                 }
                 else {
+                    comment.text = req.sanitize(req.body.comment.text);
                     //add username and id to comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
@@ -69,6 +70,9 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req,
 
 // COMMENT UPDATE
 router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
+
+    // req.body.comment.text = req.sanitize(req.body.comment.text);
+    
     Comment.findOneAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");

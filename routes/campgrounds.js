@@ -146,6 +146,7 @@ router.get("/", function (req, res) {
 
 //CREATE - add new campground to DB
 router.post("/", middleware.isLoggedIn, upload.single('image'), async function (req, res) {
+    req.body.campground.description = req.sanitize(req.body.campground.description);
     // add author to campground
     req.body.campground.author = {
         id: req.user._id,
@@ -241,7 +242,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), 
                 }
             }
             campground.name = req.body.name;
-            campground.description = req.body.description;
+            campground.description = req.sanitize(req.body.description);
             campground.price = req.body.price;
 
             campground.save();
