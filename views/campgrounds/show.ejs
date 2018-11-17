@@ -113,7 +113,7 @@
                 <div class="well" style="border-left: 5px solid #00C851;">
                     <% if(!currentUser) { %>
                     <!--If the user is not logged in, direct him to the login page-->
-                    <h5>You need to login before you can comment. <a href="/campgrounds/<%= campground._id %>/comments/new">Click here</a> to go to the login page.</h5>
+                    <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
                     <% } %>
                     <% if(currentUser) { %>
                     <!--If the user is logged in, show the new comment form-->
@@ -148,7 +148,7 @@
             <div class="row">
                 <div class="col-md-12">
                 <strong>
-                    <% if (currentUser && currentUser._id.equals(comment.author.id) || currentUser && currentUser.isAdmin) { %>
+                    <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
                     <!--If the current user owns the comment, change the color of the user icon-->
                     <span style="color: orange;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     <% } else { %>
@@ -163,7 +163,7 @@
                   <!--Printing the comment-->
                   <p><%= comment.text %></p>
                   <!--If the visitor is logged in and the owner of the comment, show the edit and delete buttons-->
-                    <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
+                    <% if (currentUser && currentUser._id.equals(comment.author.id) || currentUser && currentUser.isAdmin) { %>
                   <!--Edit button used for collapsing the edit comment form-->
                   <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse" href="#collapseEdit<%= comment._id %>" aria-expanded="false" aria-controls="collapse<%= comment._id %>">
                     Edit</a>

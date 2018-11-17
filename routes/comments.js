@@ -7,15 +7,15 @@ var express = require("express"),
 //Comments New
 router.get("/new", middleware.isLoggedIn, function (req, res) {
     // find campground by id
-    // Campground.findById(req.params.id, function(err, campground) {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     else {
-    //         res.render("comments/new", { campground: campground });
-    //     }
-    // })
-    res.redirect("/campgrounds/" + req.params.id);
+    Campground.findById(req.params.id, function (err, campground) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.render("comments/new", { campground: campground });
+        }
+    })
+    // res.redirect("/campgrounds/" + req.params.id);
 });
 
 //Comments Create
@@ -72,7 +72,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req,
 router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
 
     // req.body.comment.text = req.sanitize(req.body.comment.text);
-    
+
     Comment.findOneAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
