@@ -43,7 +43,7 @@ router.get("/", function (req, res) {
 
 // show register form
 router.get("/register", function (req, res) {
-  res.render("register", { page: 'register' });
+  res.render("register", { pageType: 'register' });
 });
 
 
@@ -87,7 +87,7 @@ router.post("/register", upload.single('avatar'), function (req, res) {
 
 //show login form
 router.get("/login", function (req, res) {
-  res.render("login", { page: "login" });
+  res.render("login", { pageType: "login" });
 });
 
 //handling login logic
@@ -281,7 +281,7 @@ router.get("/users/:id", function (req, res) {
         req.flash("error", "Something went wrong.");
         return res.redirect("/");
       }
-      res.render("users/show", { user: foundUser, campgrounds: campgrounds, page: "userProfile", showSearchForm: true });
+      res.render("users/show", { user: foundUser, campgrounds: campgrounds, pageType: "userProfile", showSearchForm: true });
     });
   });
 });
@@ -310,7 +310,7 @@ router.get('/notifications', middleware.isLoggedIn, async function (req, res) {
       options: { sort: { "_id": -1 } }
     }).exec();
     let allNotifications = user.notifications;
-    res.render('notifications/index', { allNotifications, page: "notify", showSearchForm: true });
+    res.render('notifications/index', { allNotifications, pageType: "notify", showSearchForm: true });
   }
   catch (err) {
     req.flash('error', err.message);

@@ -89,7 +89,7 @@ router.get("/", function (req, res) {
                         pages: Math.ceil(count / perPage),
                         noMatch: noMatch,
                         search: req.query.search,
-                        page: "campgrounds",
+                        pageType: "campgrounds",
                         showSearchForm: true
                     });
                 }
@@ -110,7 +110,7 @@ router.get("/", function (req, res) {
                         pages: Math.ceil(count / perPage),
                         noMatch: noMatch,
                         search: false,
-                        page: "campgrounds",
+                        pageType: "campgrounds",
                         showSearchForm: true
                     });
                 }
@@ -162,7 +162,6 @@ router.post("/", middleware.isLoggedIn, upload.single("image"), async function (
         id: req.user._id,
         username: req.user.username
     };
-
 
     let result = await cloudinary.v2.uploader.upload(req.file.path);
 
