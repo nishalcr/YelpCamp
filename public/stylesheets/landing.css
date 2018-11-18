@@ -1,4 +1,5 @@
 body {
+    font-family: 'Roboto', sans-serif;
     background-color: #000;
 }
 
@@ -10,7 +11,12 @@ body {
 }
 
 #landing-header h1 {
+    font-size: 70px;
     color: #fff;
+}
+
+#landing-header a {
+    font-size: 25px;
 }
 
 .slideshow {
@@ -86,6 +92,6 @@ body {
     opacity: 1;
 }
 
-.add-margin-top{
+.add-margin-top {
     margin-top: 10px;
 }
