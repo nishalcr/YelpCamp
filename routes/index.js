@@ -67,7 +67,7 @@ router.post("/register", upload.single('avatar'), function (req, res) {
       avatarId: req.body.avatar
     });
 
-    if (req.body.adminCode === 'yelpcampncr') {
+    if (req.body.adminCode === ADMINPW) {
       newUser.isAdmin = true;
     }
 
