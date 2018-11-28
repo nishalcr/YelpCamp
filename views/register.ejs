@@ -1,105 +1,108 @@
 <% include ./partials/header %>
 
-<h1 class="text-center mb-3">Sign Up</h1>
+    <h1 class="text-center mb-3">Sign Up</h1>
 
-<form action="/register" method="post" enctype="multipart/form-data" class="border border-light rounded px-4 py-4">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label for="registerEmail">Email</label>
-            <input type="email" class="form-control mb-2" id="registerEmail" name="email" placeholder="john@email.com" required>
+    <form action="/register" method="post" enctype="multipart/form-data" class="border border-light rounded px-4 py-4">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="registerEmail">Email :</label>
+                <input type="email" class="form-control mb-2" id="registerEmail" name="email" placeholder="john@email.com" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="registerUsername">Username :</label>
+                <input type="text" class="form-control mb-2" id="registerUsername" name="username" placeholder="john" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="registerPassword">Password :</label>
+                <input type="password" class="form-control mb-2" id="registerPassword" name="password" placeholder="Password" required>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label for="registerUsername">Username</label>
-            <input type="text" class="form-control mb-2" id="registerUsername" name="username" placeholder="john" required>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="registerFirstName">First Name :</label>
+                <input type="text" class="form-control mb-2" id="registerFirstName" name="firstName" placeholder="John" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="registerLastName">Last Name :</label>
+                <input type="text" class="form-control mb-2" id="registerLastName" name="lastName" placeholder="Doe" required>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label for="registerPassword">Password</label>
-            <input type="password" class="form-control mb-2" id="registerPassword" name="password" placeholder="Password" required>
+        <div class="form-row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="registerAvatar">Profile Picture :</label>
+                <input type="file" class="form-control-file mb-2 imageUpload" id="registerAvatar" name="avatar" accept="image/*" required>
+            </div>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="registerFirstName">First Name</label>
-            <input type="text" class="form-control mb-2" id="registerFirstName" name="firstName" placeholder="John" required>
+        <div class="form-group">
+            <div class="form-check col-md-6 mx-auto">
+                <input class="form-check-input mb-2" type="checkbox" id="adminCheck" onclick="adminLogin()">
+                <label class="form-check-label" for="adminCheck">
+                    Sign Up as Admin
+                </label>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label for="registerLastName">Last Name</label>
-            <input type="text" class="form-control mb-2" id="registerLastName" name="lastName" placeholder="Doe" required>
+        <div class="form-row">
+            <div class="form-group col-md-6 mx-auto">
+                <input id="adminInput" style="display:none" class="form-control mb-2" type="password" name="adminCode" placeholder="Admin Code">
+            </div>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="registerAvatar">Profile Picture</label>
-            <input type="file" class="form-control-file mb-2" id="registerAvatar" name="avatar" accept="image/*" required>
+        <div class="text-center">
+            <button type="submit" class="btn btn-lg btn-primary">Sign Up</button>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="form-check col-md-6">
-            <input class="form-check-input mb-2" type="checkbox" id="adminCheck" onclick="adminLogin()">
-            <label class="form-check-label" for="adminCheck">
-                Sign Up as Admin
-            </label>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <input id="adminInput" style="display:none" class="form-control mb-2" type="password" name="adminCode" placeholder="Admin Code">
-        </div>
-    </div>
-    
+    </form>
 
-    <button type="submit" class="btn btn-lg btn-primary">Sign Up</button>
+    <script type="text/javascript">
+        function adminLogin() {
+            // Get the checkbox
+            var checkBox = document.getElementById("adminCheck");
+            // Get the output text
+            var text = document.getElementById("adminInput");
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                    text.style.display = "block";
+                } 
+            else {
+                    text.style.display = "none";
+                }
+        }
+    </script>
 
-</form>
-
-<script type="text/javascript">
-    function adminLogin() {
-        // Get the checkbox
-        var checkBox = document.getElementById("adminCheck");
-        // Get the output text
-        var text = document.getElementById("adminInput");
-        // If the checkbox is checked, display the output text
-        if (checkBox.checked == true){
-                text.style.display = "block";
-            } 
-        else {
-                text.style.display = "none";
-            }
-    }
-</script>
-
-<!-- <div class="row">
-    <h1 style="text-align: center">Sign Up</h1>
-    <div style="width: 30%; margin: 25px auto;">
-        <form action="/register" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <input class="form-control" type="email" name="email" placeholder="email">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="firstName" placeholder="first name">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="lastName" placeholder="last name">
-            </div>
-            <div class="form-group">
-                <label for="avatar">Avatar</label>
-                <input type="file" id="avatar" name="avatar" accept="image/*" required>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="adminCode" placeholder="admin Code">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
-            </div>
-        </form>
-        <a href="/campgrounds">Go Back</a>
+    <div class="text-center mt-2">
+        <a href="/campgrounds"><i class="fas fa-arrow-circle-left"></i> Go Back</a>
     </div>
-</div> -->
+
+    <!-- <div class="row">
+        <h1 style="text-align: center">Sign Up</h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/register" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="firstName" placeholder="first name">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="lastName" placeholder="last name">
+                </div>
+                <div class="form-group">
+                    <label for="avatar">Avatar</label>
+                    <input type="file" id="avatar" name="avatar" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="adminCode" placeholder="admin Code">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+                </div>
+            </form>
+            <a href="/campgrounds">Go Back</a>
+        </div>
+    </div> -->
 
 <% include ./partials/footer %>

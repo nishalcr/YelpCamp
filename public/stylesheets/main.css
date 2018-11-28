@@ -33,7 +33,7 @@ body {
     border-top-right-radius: 0;
 }
 
-#registerAvatar{
+.imageUpload{
     display: block;
     width: 100%;
     font-size: 1rem;

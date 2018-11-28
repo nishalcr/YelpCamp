@@ -224,7 +224,9 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function (req, res)
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, upload.single("image"), function (req, res) {
 
-    delete req.body.campground.rating;
+    if(req.body.campground !== undefined){
+        delete req.body.campground.rating;
+    }
 
     Campground.findById(req.params.id, async function (err, campground) {
         if (err) {
