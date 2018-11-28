@@ -145,7 +145,7 @@ router.post('/forgot', function (req, res, next) {
         }
 
         user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 300000; // 5 minutes
+        user.resetPasswordExpires = Date.now() + 3000000; // 5 minutes
 
         user.save(function (err) {
           done(err, token, user);
@@ -177,7 +177,7 @@ router.post('/forgot', function (req, res, next) {
     }
   ], function (err) {
     if (err) return next(err);
-    res.redirect('/reset');
+    res.redirect('/forgot');
   });
 });
 
