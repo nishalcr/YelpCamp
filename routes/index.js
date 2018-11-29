@@ -35,7 +35,6 @@ cloudinary.config({
 });
 
 
-
 //root route
 router.get("/", function (req, res) {
   res.render("landing");
@@ -67,7 +66,7 @@ router.post("/register", upload.single('avatar'), function (req, res) {
       avatarId: req.body.avatar
     });
 
-    if (req.body.adminCode === ADMINPW) {
+    if (req.body.adminCode === process.env.ADMINPW) {
       newUser.isAdmin = true;
     }
 
@@ -78,8 +77,8 @@ router.post("/register", upload.single('avatar'), function (req, res) {
       }
 
       passport.authenticate("local")(req, res, function () {
-        req.flash("success", "Welcome to YelpCamp " + user.username);
-        res.redirect("/campgrounds");
+      req.flash("success", "Welcome to YelpCamp " + user.username);
+      res.redirect("/campgrounds");
       });
     });
   });

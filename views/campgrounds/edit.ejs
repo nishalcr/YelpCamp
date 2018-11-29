@@ -1,46 +1,46 @@
 <% include ../partials/header %>
 
-<div class="row">
-    <div class="mx-auto">
-        <h1>Edit <%= campground.name %></h1>
-    </div>
-</div>
-
-<div class="row">
-    <div class="mx-auto">
-        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="border border-light rounded px-3 py-3">
-
-            <div class="form-group mx-5">
-                <label for="editCampgroundName">Name :</label>
-                <input class="form-control mb-2" type="text" id="editCampgroundName" name="name" value="<%= campground.name%>" required>
-            </div>
-
-            <div class="form-group mx-5">
-                <label for="editImage">Image :</label>
-                <input type="file" class="form-control-file mb-2 imageUpload" id="editImage" name="image" accept="image/*">
-            </div>
-
-            <div class="form-group mx-5">
-                <label for="editDescription">Description :</label>
-                <textarea class="form-control mb-2" id="editDescription" name="description" rows="3" cols="60" required><%- campground.description%>
-                </textarea> 
-            </div>
-
-            <div class="form-group mx-5">
-                <label for="editPrice">Price : <i class="fas fa-rupee-sign"></i></label>
-                <input class="form-control mb-2" type="number" id="editPrice" name="price" value="<%- campground.price%>" min="0.01" step="0.01" required>
-            </div>
-
-            <div class="text-center">
-                <button class="btn btn-lg btn-primary">Submit</button>
-            </div>
-
-        </form>
-        <div class="mt-2 pl-4 ml-5">
-            <a class="justify-content-around" href="/campgrounds"><i class="fas fa-arrow-circle-left"></i> Go Back</a>
+    <div class="row">
+        <div class="mx-auto">
+            <h1>Edit <%= campground.name %></h1>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="mx-auto">
+            <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="border border-light rounded px-3 py-3">
+
+                <div class="form-group mx-5">
+                    <label for="editCampgroundName">Name :</label>
+                    <input class="form-control mb-2" type="text" id="editCampgroundName" name="name" value="<%= campground.name%>" required>
+                </div>
+
+                <div class="form-group mx-5">
+                    <label for="editImage">Image :</label>
+                    <input type="file" class="form-control-file mb-2 imageUpload" id="editImage" name="image" accept="image/*">
+                </div>
+
+                <div class="form-group mx-5">
+                    <label for="editDescription">Description :</label>
+                    <textarea class="form-control mb-2" id="editDescription" name="description" rows="3" cols="60" required><%- campground.description%>
+                    </textarea> 
+                </div>
+
+                <div class="form-group mx-5">
+                    <label for="editPrice">Price : <i class="fas fa-rupee-sign"></i></label>
+                    <input class="form-control mb-2" type="number" id="editPrice" name="price" value="<%- campground.price%>" min="0.01" step="0.01" required>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-outline-primary">Submit</button>
+                </div>
+
+            </form>
+            <div class="mt-2 pl-4 ml-5">
+                <a class="justify-content-around btn pl-0" href="/campgrounds/<%= campground.id %>"><i class="fas fa-arrow-circle-left"></i> Go Back</a>
+            </div>
+        </div>
+    </div>
 
 
 

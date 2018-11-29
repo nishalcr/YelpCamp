@@ -52,7 +52,7 @@
 
                     <li class="nav-item dropdown <%= typeof pageType !== "undefined" && pageType === "notify" ? "active" : "" %>">
                         <a class="nav-link dropdown-toggle mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Notifications
+                            <i class="fas fa-bell mr-1"></i>  Notifications
                             <span class="badge badge-light"><%= notifications.length %></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -95,5 +95,5 @@
         <% } %>
     </div>
 
-    <div class="container">
+    <div class="container mt-5">
 

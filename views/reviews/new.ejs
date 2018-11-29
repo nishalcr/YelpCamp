@@ -1,66 +1,65 @@
 <% include ../partials/header %>
 
-<div class="container">
     <div class="row">
-        <h1 style="text-align: center">New Review: <%= campground.name %></h1>
+        <div class="mx-auto">
+            <h1>New Review: <%= campground.name %></h1>
+        </div>
+    </div>
 
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/campgrounds/<%= campground._id %>/reviews" method="POST">
-
+    <div class="row">
+        <div class="mx-auto">
+            <form class="border border-light rounded px-3 py-3" action="/campgrounds/<%= campground._id %>/reviews" method="POST">
                 <div class="form-group">
                     <label for="rating">Leave a rating:</label>
                     <fieldset class="starability-basic form-group" id="rating">
+                        <div>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" checked />
+                            <label for="first-rate5">
+                                Amazing - <%-'<i class="fas fa-star checked-star"></i>'.repeat(5) %>
+                            </label>
+                        </div>
 
-                    <div>
-                        <input type="radio" id="first-rate5" name="review[rating]" value="5" checked />
-                        <label for="first-rate5" title="5 stars - Amazing">
-                            <%- '<span class="fa fa-star checked"></span>'.repeat(5) %>
-                        </label>
-                    </div>
+                        <div>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4">
+                                Very good - <%-'<i class="fas fa-star checked-star"></i>'.repeat(4) %>
+                            </label>
+                        </div>
 
-                    <div>
-                        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                        <label for="first-rate4" title="4 stars - Very good">
-                            <%- '<span class="fa fa-star checked"></span>'.repeat(4) %>
-                        </label>
-                    </div>
+                        <div>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3">
+                                Average - <%- '<i class="fas fa-star checked-star"></i>'.repeat(3) %>
+                            </label>
+                        </div>
 
-                    <div>
-                        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                        <label for="first-rate3" title="3 stars - Average">
-                            <%- '<span class="fa fa-star checked"></span>'.repeat(3) %>
-                        </label>
-                    </div>
+                        <div>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2">
+                                Not good - <%- '<i class="fas fa-star checked-star"></i>'.repeat(2) %>
+                            </label>
+                        </div>
 
-                    <div>
-                        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                        <label for="first-rate2" title="2 stars - Not good">
-                            <%- '<span class="fa fa-star checked"></span>'.repeat(2) %>
-                        </label>
-                    </div>
-
-                    <div>
-                        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                        <label for="first-rate1" title="1 star - Terrible">
-                            <%- '<span class="fa fa-star checked"></span>'.repeat(1) %>
-                        </label>
-                    </div>
-
+                        <div>
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1">
+                                Terrible - <%- '<i class="fas fa-star checked-star"></i>'.repeat(1) %>
+                            </label>
+                        </div>
                     </fieldset>
                 </div>
 
                 <div class="form-group">
-                    <textarea  class="form-control" type="text" name="review[text]" placeholder="Write a review for this campground..." rows="5" maxlenght="500" required></textarea>
+                    <textarea class="form-control" type="text" name="review[text]" placeholder="Write a review for this campground..." rows="5" cols="50" maxlenght="500" required></textarea>
                 </div>
 
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block">Submit a Review</button>
+                <div class="form-group mb-0">
+                    <button class="btn btn-primary">Submit a Review</button>
                 </div>
-
             </form>
-            <a href="/campgrounds/<%= campground._id %>"><i class="fas fa-arrow-circle-left"></i> Go Back</a>
+            <a class="btn mt-3" href="/campgrounds/<%= campground._id %>"><i class="fas fa-arrow-circle-left"></i> Go Back</a>
         </div>
     </div>
-</div>
+
 
 <% include ../partials/footer %>

@@ -5,7 +5,7 @@
         <h1 class="display-4">Welcome to YelpCamp !</h1>
         <br>
         <p class="lead">View our hand-picked campgrounds from all over the world</p>
-        <a class = "btn btn-primary btn-lg" href="/campgrounds/new">Add new Campground</a>
+        <a class = "btn btn-outline-info btn-lg" href="/campgrounds/new">Add new Campground</a>
       </div>
     </div>
 
@@ -31,11 +31,11 @@
                             <% if (campground.rating === 0) { %>
                                 <em>No reviews yet.</em>
                             <% } else { %>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
-                                <span class="fas fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
-                                <span class="fas fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
-                                <span class="fas fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
+                                <i class="fas fa-star checked-star"></i>
+                                <i class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"></i>
+                                <i class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"></i>
+                                <i class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"></i>
+                                <i class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"></i>
                             <% } %>
                         </p>
                         <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-success">More Info</a>
