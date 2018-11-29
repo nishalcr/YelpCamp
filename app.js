@@ -4,7 +4,6 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    seedDB = require("./seeds"),
     flash = require("connect-flash"),
     passport = require("passport"),
     expressSanitizer = require("express-sanitizer"),
@@ -28,7 +27,6 @@ app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 app.use(flash());
 
-//seedDB();
 
 app.use(require("express-session")({
     secret: "MUFC IS THE BEST  FOOTBALL CLUB",
