@@ -192,6 +192,8 @@ router.get('/reset/:token', function (req, res) {
   });
 });
 
+
+//Reset Password logic
 router.post('/reset/:token', function (req, res) {
   async.waterfall([
     function (done) {
