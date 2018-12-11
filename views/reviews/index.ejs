@@ -35,7 +35,7 @@
                                             <p class="mb-2">Review by: <strong><%= review.author.username %></strong></p>
                                             <p class="mb-2"><em><%= review.updatedAt.toDateString() %></em></p>
                                             <p class="mb-2">
-                                                <%- '<i class="fas fa-star checked-star"></i>'.repeat(review.rating) %><%- '<i class="fas fa-star checked-star"></i>'.repeat(5 - review.rating) %>
+                                                <%- '<i class="fas fa-star checked-star"></i>'.repeat(review.rating) %><%- '<i class="fas fa-star"></i>'.repeat(5 - review.rating) %>
                                             </p>
                                         </div>
                                         <div class="col-md-9">
