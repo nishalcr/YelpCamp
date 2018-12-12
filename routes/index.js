@@ -45,6 +45,45 @@ router.get("/register", function (req, res) {
   res.render("register", { pageType: 'register' });
 });
 
+// register logic
+// router.post("/register", upload.single('avatar'), function (req, res) {
+//   cloudinary.v2.uploader.upload(req.file.path, function (err, result) {
+//     if (err) {
+//       req.flash('error', err.message);
+//       return res.redirect('back');
+//     }
+//     // add cloudinary url for the image to the campground object under image property
+//     req.body.avatar = result.secure_url;
+//     // add image's public_id to campground object
+//     req.body.avatarId = result.public_id;
+
+//     var newUser = new User({
+//       username: req.body.username,
+//       firstName: req.body.firstName,
+//       lastName: req.body.lastName,
+//       email: req.body.email,
+//       avatar: req.body.avatar,
+//       avatarId: req.body.avatar
+//     });
+
+//     if (req.body.adminCode === process.env.ADMINPW) {
+//       newUser.isAdmin = true;
+//     }
+
+//     User.register(newUser, req.body.password, function (err, user) {
+//       if (err) {
+//         console.log(err);
+//         return res.render("register", { "error": err.message });
+//       }
+
+//       passport.authenticate("local")(req, res, function () {
+//       req.flash("success", "Welcome to YelpCamp " + user.username);
+//       res.redirect("/campgrounds");
+//       });
+//     });
+//   });
+// });
+
 
 router.post("/register", upload.single('avatar'), function (req, res) {
   cloudinary.v2.uploader.upload(req.file.path, function (err, result) {
@@ -57,30 +96,37 @@ router.post("/register", upload.single('avatar'), function (req, res) {
     // add image's public_id to campground object
     req.body.avatarId = result.public_id;
 
-    var newUser = new User({
-      username: req.body.username,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      avatar: req.body.avatar,
-      avatarId: req.body.avatar
-    });
-
-    if (req.body.adminCode === process.env.ADMINPW) {
-      newUser.isAdmin = true;
+    if(!(ValidateEmail(req.body.email))){
+      req.flash('error',"Enter valid Email");
+      return res.redirect('back');
     }
+    else{
+      var newUser = new User({
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        avatar: req.body.avatar,
+        avatarId: req.body.avatar
+      });
 
-    User.register(newUser, req.body.password, function (err, user) {
-      if (err) {
-        console.log(err);
-        return res.render("register", { "error": err.message });
+      if (req.body.adminCode === process.env.ADMINPW) {
+        newUser.isAdmin = true;
       }
 
-      passport.authenticate("local")(req, res, function () {
-      req.flash("success", "Welcome to YelpCamp " + user.username);
-      res.redirect("/campgrounds");
+      User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+          console.log(err);
+          return res.render("register", { "error": err.message });
+        }
+
+        passport.authenticate("local")(req, res, function () {
+        req.flash("success", "Welcome to YelpCamp " + user.username);
+        res.redirect("/campgrounds");
+        });
       });
-    });
+    }
+
   });
 });
 
@@ -315,5 +361,12 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function (req, res
   }
 });
 
+function ValidateEmail(mail) 
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+    return (true);
+  else
+    return (false);
+}
 
 module.exports = router;
