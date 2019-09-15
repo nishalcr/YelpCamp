@@ -1,26 +1,25 @@
 <% include ../partials/header %>
 
-	<div class="row">
-		<div class="col-md-7 mx-auto">
-			<div class="card">
-				<h1 class="card-header text-center mb-2">Notifications</h1>
-				<ul class="list-group list-group-flush">
-
-				<% if( !(allNotifications.length > 0)) {%>
-					<li class="list-group-item">
-						<h4>No notifications</h4>
-					</li>
-				<% } else { allNotifications.forEach(function(notification) { %>
-					<li class="list-group-item">
-						<%= notification.username %> created a new Campground %>
-						<a href="/campgrounds/<%= notification.campgroundId %>">
-							Visit
-						</a>
-					</li>
-				<% }); }%>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div class="row">
+  <div class="col-md-7 mx-auto">
+    <div class="card">
+      <h1 class="card-header text-center mb-2">Notifications</h1>
+      <ul class="list-group list-group-flush">
+        <% if( !(allNotifications.length > 0)) {%>
+        <li class="list-group-item">
+          <h4>No notifications</h4>
+        </li>
+        <% } else { allNotifications.forEach(function(notification) { %>
+        <li class="list-group-item">
+          <%= notification.username %> created a new Campground %>
+          <a href="/campgrounds/<%= notification.campgroundId %>">
+            Visit
+          </a>
+        </li>
+        <% }); }%>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>

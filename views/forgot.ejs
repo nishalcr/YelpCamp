@@ -1,18 +1,26 @@
 <% include ./partials/header %>
 
-	<div class="row">
-		<div class="mx-auto">
-			<form action="/forgot" method="POST">
-				<h1 class="text-center mb-4">Forgot Password</h1>
-				<div class="form-group row">
-					<label for="forgotEmail">Enter Registered Email :</label>
-					<input type="email" class="form-control mb-2" id="forgotEmail" name="email" autofocus>
-				</div>
-				<div class="form-group row">
-					<button type="submit" class="btn btn-outline-primary mb-2">Reset Password</button>
-				</div>
-			</form>
-		</div>
-	</div>
-	
+<div class="row">
+  <div class="mx-auto">
+    <form action="/forgot" method="POST">
+      <h1 class="text-center mb-4">Forgot Password</h1>
+      <div class="form-group row">
+        <label for="forgotEmail">Enter Registered Email :</label>
+        <input
+          type="email"
+          class="form-control mb-2"
+          id="forgotEmail"
+          name="email"
+          autofocus
+        />
+      </div>
+      <div class="form-group row">
+        <button type="submit" class="btn btn-outline-primary mb-2">
+          Reset Password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <% include ./partials/footer %>
