@@ -9,7 +9,7 @@ var express = require("express"),
   expressSanitizer = require("express-sanitizer"),
   LocalStrategy = require("passport-local"),
   User = require("./models/user"),
-  session = require("express-session"),
+  session = require("cookie-session"),
   methodOverride = require("method-override");
 
 var campgroundRoutes = require("./routes/campgrounds"),
@@ -32,7 +32,7 @@ app.use(expressSanitizer());
 app.use(flash());
 
 app.use(
-  require("express-session")({
+  session({
     secret: "MUFC IS THE BEST  FOOTBALL CLUB",
     resave: false,
     saveUninitialized: false
