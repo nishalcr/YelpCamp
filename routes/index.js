@@ -206,7 +206,7 @@ router.post("/forgot", function(req, res, next) {
           from: "yelpcamp.ncr@gmail.com",
           subject: "YelpCamp-NCR Password Reset",
           text:
-            "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+            "You are receiving this because you have requested the reset of the password for your account.\n\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
             "http://" +
             req.headers.host +
