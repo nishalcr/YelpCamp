@@ -1,2 +1,2 @@
 # YelpCamp
-MEAN stack project - Udemy - Web Development BootCamp
+MEN stack project - Udemy - Web Development BootCamp
