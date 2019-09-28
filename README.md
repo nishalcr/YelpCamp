@@ -1,2 +1,2 @@
 # YelpCamp
-MEN stack project - Udemy - Web Development BootCamp
+Mongo, Express & Node (MEN) stack project - Udemy - Web Development BootCamp
