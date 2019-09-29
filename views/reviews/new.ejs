@@ -11,8 +11,7 @@
     <form
       class="border border-light rounded px-3 py-3"
       action="/campgrounds/<%= campground._id %>/reviews"
-      method="POST"
-    >
+      method="POST">
       <div class="form-group">
         <label for="rating">Leave a rating:</label>
         <fieldset class="starability-basic form-group" id="rating">
@@ -25,8 +24,7 @@
               checked
             />
             <label for="first-rate5">
-              Amazing - <%-'<i class="fas fa-star checked-star"></i>'.repeat(5)
-              %>
+              Amazing - <%-'<i class="fas fa-star checked-star"></i>'.repeat(5)%>
             </label>
           </div>
 
@@ -38,8 +36,7 @@
               value="4"
             />
             <label for="first-rate4">
-              Very good - <%-'<i class="fas fa-star checked-star"></i
-              >'.repeat(4) %>
+              Very good - <%-'<span class="fas fa-star checked-star"></span>'.repeat(4) %>
             </label>
           </div>
 
@@ -48,11 +45,9 @@
               type="radio"
               id="first-rate3"
               name="review[rating]"
-              value="3"
-            />
+              value="3"/>
             <label for="first-rate3">
-              Average - <%- '<i class="fas fa-star checked-star"></i>'.repeat(3)
-              %>
+              Average - <%- '<span class="fas fa-star checked-star"></span>'.repeat(3)%>
             </label>
           </div>
 
@@ -61,11 +56,9 @@
               type="radio"
               id="first-rate2"
               name="review[rating]"
-              value="2"
-            />
+              value="2"/>
             <label for="first-rate2">
-              Not good - <%- '<i class="fas fa-star checked-star"></i
-              >'.repeat(2) %>
+              Not good - <%- '<span class="fas fa-star checked-star"></span>'.repeat(2) %>
             </label>
           </div>
 
@@ -74,11 +67,9 @@
               type="radio"
               id="first-rate1"
               name="review[rating]"
-              value="1"
-            />
+              value="1"/>
             <label for="first-rate1">
-              Terrible - <%- '<i class="fas fa-star checked-star"></i
-              >'.repeat(1) %>
+              Terrible - <%- '<span class="fas fa-star checked-star"></span>'.repeat(1) %>
             </label>
           </div>
         </fieldset>
@@ -93,8 +84,7 @@
           rows="5"
           cols="50"
           maxlenght="500"
-          required
-        ></textarea>
+          required></textarea>
       </div>
 
       <div class="form-group mb-0">

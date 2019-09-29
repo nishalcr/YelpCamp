@@ -23,7 +23,7 @@
             <span class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"></span>
             <span class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"></span>
             <span class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"></span>
-            <em>(total reviews: <%= campground.reviews.length %>)</em>
+            <em>total reviews: <%= campground.reviews.length %></em>
           </p>
         </div>
 
@@ -42,9 +42,7 @@
                   <em><%= review.updatedAt.toDateString() %></em>
                 </p>
                 <p class="mb-2">
-                  <%- '<i class="fas fa-star checked-star"></i
-                  >'.repeat(review.rating) %><%- '<i class="fas fa-star"></i
-                  >'.repeat(5 - review.rating) %>
+                  <%- '<span class="fas fa-star checked-star"></span>'.repeat(review.rating) %><%- '<span class="fas fa-star"></span>'.repeat(5 - review.rating) %>
                 </p>
               </div>
               <div class="col-md-9">
@@ -60,8 +58,7 @@
                   </p>
                 </div>
 
-                <% if(currentUser && review.author.id.equals(currentUser._id)){
-                %>
+                <% if(currentUser && review.author.id.equals(currentUser._id)){%>
                 <a
                   class="btn btn-sm btn-warning mr-3"
                   href="/campgrounds/<%=campground._id%>/reviews/<%=review._id %>/edit"
