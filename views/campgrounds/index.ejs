@@ -24,7 +24,9 @@
     <div class="card-columns">
         <% campgrounds.forEach( function(campground){ %>
             <div class="card text-center mb-2 mt-3">
+                <a href="/campgrounds/<%= campground._id %>">   
                     <img class="card-img-top" src="<%= campground.image %>">
+                </a>
                     <div class="card-body">
                         <p class="card-text">
                             <h4><%= campground.name%></h4>
