@@ -18,19 +18,11 @@
           </h5>
 
           <p class="mb-0 float-right">
-            <i class="fas fa-star checked-star"></i>
-            <i
-              class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"
-            ></i>
-            <i
-              class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"
-            ></i>
-            <i
-              class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"
-            ></i>
-            <i
-              class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"
-            ></i>
+            <span class="fas fa-star checked-star"></span>
+            <span class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"></span>
+            <span class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"></span>
+            <span class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"></span>
+            <span class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"></span>
             <em>(total reviews: <%= campground.reviews.length %>)</em>
           </p>
         </div>
@@ -109,7 +101,7 @@
         href="/campgrounds/<%= campground._id %>"
         style="display: inline;"
       >
-        <i class="fas fa-arrow-circle-left"></i> Go back
+        <span class="fas fa-arrow-circle-left"></span> Go back
       </a>
     </div>
   </div>

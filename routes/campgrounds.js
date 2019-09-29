@@ -152,7 +152,7 @@ router.get("/:id", function(req, res) {
         //render show template with that campground
         res.render("campgrounds/show", {
           campground: foundCampground,
-          showSearchForm: true,
+          showSearchForm: true
         });
       }
     });
