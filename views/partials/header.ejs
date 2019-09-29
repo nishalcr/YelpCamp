@@ -16,7 +16,7 @@
     <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 py-1 px-1">
-        <a class="navbar-brand px-2 pb-2" href="/"><i class="fas fa-campground px-2"></i>YelpCamp</a>
+        <a class="navbar-brand px-2 pb-2" href="/"><span class="fas fa-campground px-2"></sppan>YelpCamp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -52,7 +52,7 @@
 
                     <li class="nav-item dropdown <%= typeof pageType !== "undefined" && pageType === "notify" ? "active" : "" %>">
                         <a class="nav-link dropdown-toggle mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell mr-1"></i>  Notifications
+                            <span class="fas fa-bell mr-1"></span>  Notifications
                             <span class="badge badge-light"><%= notifications.length %></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -70,7 +70,7 @@
 
                     <li class="nav-item <%= typeof pageType !== "undefined" && pageType === "userProfile" ? "active" : "" %>">
                         <a class="nav-link" href="/users/<%= currentUser._id %>">
-                            <i class="far fa-user mr-1"></i> <%= currentUser.username %>
+                            <span class="far fa-user mr-1"></span> <%= currentUser.username %>
                         </a>
                     </li>
                     <li class="nav-item">

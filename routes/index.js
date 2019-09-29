@@ -404,7 +404,7 @@ router.get("/notifications/:id", middleware.isLoggedIn, async function(
 
 function ValidateEmail(mail) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) return true;
-  else return false;
+  return false;
 }
 
 module.exports = router;

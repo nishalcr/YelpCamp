@@ -70,33 +70,37 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(
 
 module.exports = router;
 
-//Comments New
-// router.get("/new", middleware.isLoggedIn, function (req, res) {
-//     // find campground by id
-//     Campground.findById(req.params.id, function (err, campground) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             res.render("comments/new", { campground: campground });
-//         }
-//     })
-//     // res.redirect("/campgrounds/" + req.params.id);
-// });
+// Comments New
+router.get("/new", middleware.isLoggedIn, function(req, res) {
+  // find campground by id
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/new", { campground: campground });
+    }
+  });
+  // res.redirect("/campgrounds/" + req.params.id);
+});
 // COMMENT EDIT ROUTE
-// router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req, res) {
-//     Campground.findById(req.params.id, function (err, foundCampground) {
-//         if (err || !foundCampground) {
-//             req.flash("error", "No campground found");
-//             return res.redirect("back");
-//         }
-//         Comment.findById(req.params.comment_id, function (err, foundComment) {
-//             if (err) {
-//                 res.redirect("back");
-//             }
-//             else {
-//                 res.render("comments/edit", { campground_id: req.params.id, comment: foundComment });
-//             }
-//         });
-//     });
-// });
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(
+  req,
+  res
+) {
+  Campground.findById(req.params.id, function(err, foundCampground) {
+    if (err || !foundCampground) {
+      req.flash("error", "No campground found");
+      return res.redirect("back");
+    }
+    Comment.findById(req.params.comment_id, function(err, foundComment) {
+      if (err) {
+        res.redirect("back");
+      } else {
+        res.render("comments/edit", {
+          campground_id: req.params.id,
+          comment: foundComment
+        });
+      }
+    });
+  });
+});

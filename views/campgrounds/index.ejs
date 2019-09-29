@@ -24,18 +24,20 @@
     <div class="card-columns">
         <% campgrounds.forEach( function(campground){ %>
             <div class="card text-center mb-2 mt-3">
-                    <img class="card-img-top" src="<%= campground.image %>">
+                <a href="/campgrounds/<%= campground._id %>">   
+                    <img class="card-img-top" src="<%= campground.image %>" alt="Campground Image">
+                </a>
                     <div class="card-body">
                         <p class="card-text">
                             <h4><%= campground.name%></h4>
                             <% if (campground.rating === 0) { %>
                                 <em>No reviews yet.</em>
                             <% } else { %>
-                                <i class="fas fa-star checked-star"></i>
-                                <i class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"></i>
-                                <i class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"></i>
-                                <i class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"></i>
-                                <i class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"></i>
+                                <span class="fas fa-star checked-star"></span>
+                                <span class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"></span>
+                                <span class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"></span>
+                                <span class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"></span>
+                                <span class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"></span>
                             <% } %>
                         </p>
                         <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-success">More Info</a>

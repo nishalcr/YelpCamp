@@ -1,136 +1,115 @@
 <% include ../partials/header %>
 
 <div class="row mb-4">
-  <div class="col-md-8 pr-2 pl-0">
-    <div class="card no-gutters">
-      <img class="card img-top col-12" src="<%= campground.image %>" />
-      <div class="card-body">
-        <h5 class="float-right mt-2">
-          <i class="fas fa-rupee-sign"></i> <%= campground.price %>/day
-        </h5>
-        <h3><%= campground.name %></h3>
-        <p><%- campground.description %></p>
-        <p>
-          <em
-            >Submitted by:
-            <a href="/users/<%= campground.author.id %>"
-              ><%= campground.author.username %></a
-            >, <%= moment(campground.createdAt).fromNow() %>
-          </em>
-        </p>
-        <% if(currentUser && campground.author.id.equals(currentUser._id) ||
-        currentUser && currentUser.isAdmin){%>
-        <a class="btn btn-warning" href="/campgrounds/<%= campground._id%>/edit"
-          >Edit Campground</a
-        >
-        <form
-          class="ml-3"
-          style="display: inline;"
-          action="/campgrounds/<%= campground._id %>?_method=DELETE"
-          method="POST"
-        >
-          <button class="btn btn-danger">
-            Delete Campground
-          </button>
-        </form>
-        <% }%>
-      </div>
+	<div class="col-md-8 pr-2 pl-0">
+    	<div class="card no-gutters">
+      		<img class="card img-top col-12" src="<%=campground.image%>" alt="Campgroung Image" />
+      		<div class="card-body">
+        		<h5 class="float-right mt-2">
+          			<span class="fas fa-rupee-sign"></span> <%=campground.price%>/day
+        		</h5>
+        		
+				<h3><%=campground.name%></h3>
+        		<p><%=campground.description%></p>
+        		<p>
+          			<em>Submitted by:
+            			<a href="/users/<%=campground.author.id%>"><%=campground.author.username%></a>, <%=moment(campground.createdAt).fromNow()%>
+          			</em>
+        		</p>
+
+				<%if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) {%>
+				    <a class="btn btn-warning" href="/campgrounds/<%= campground._id%>/edit">
+						Edit Campground
+					</a>
+
+				<form
+					class="ml-3"
+					style="display: inline;"
+					action="/campgrounds/<%=campground._id%>?_method=DELETE"
+					method="POST">
+					<button class="btn btn-danger">
+           				Delete Campground
+          			</button>
+        		</form>
+        	<%}%>
+      	</div>
     </div>
-  </div>
+</div>
 
-  <!--Review section start-->
+<!--REVIEW SECTION START-->
 
-  <div class="col-md-4 pl-2 pr-0">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">
-          Campground rating:
-          <strong><%= campground.rating.toFixed(2) %></strong>
-        </h5>
+<div class="col-md-4 pl-2 pr-0">
+	<div class="card">
+    	<div class="card-header">
+        	<h5 class="card-title">
+          		Campground rating:
+          		<strong><%=campground.rating.toFixed(2)%></strong>
+        	</h5>
+        	<%if (campground.rating === 0) {%>
+        	<h5>
+          		<em>No reviews yet.</em>
+        	</h5>
+        	<%} else {%>
+        	<p>
+          		<span class="fas fa-star checked-star"></span>
+          		<span class="fas fa-star <%if (campground.rating > 1.5) {%> checked-star <%}%>"></span>
+          		<span class="fas fa-star <%if (campground.rating > 2.5) {%> checked-star <%}%>"></span>
+          		<span class="fas fa-star <%if (campground.rating > 3.5) {%> checked-star <%}%>"></span>
+          		<span class="fas fa-star <%if (campground.rating > 4.5) {%> checked-star <%}%>"></span>
+				<span>(total reviews: <%= campground.reviews.length %>)</span>
+			</p>
+			<h5>Latest reviews for this campground:</h5>
+      	</div>
+	
+		<div class="card-body px-3 py-3">
+			<% campground.reviews.slice(0,5).forEach(function(review){%>
+				<div class="row">
+					
+					<div class="col-md-12">
+						<p class="mb-2">
+							Review by: <strong><%= review.author.username %></strong>
+							<span class="float-right">
+								<em><%= review.updatedAt.toDateString() %></em>
+							</span>
+							
+							<br/>
+							<%- '<span class="fas fa-star checked-star"></span>'.repeat(review.rating) %>
+							<%- '<span class="fas fa-star"></span>'.repeat(5 - review.rating) %>
+						</p>
+					</div>
 
-        <% if (campground.rating === 0) { %>
-        <h5>
-          <em>No reviews yet.</em>
-        </h5>
-        <% } else { %>
-        <p>
-          <i class="fas fa-star checked-star"></i>
-          <i
-            class="fas fa-star <% if (campground.rating > 1.5) { %> checked-star <% } %>"
-          ></i>
-          <i
-            class="fas fa-star <% if (campground.rating > 2.5) { %> checked-star <% } %>"
-          ></i>
-          <i
-            class="fas fa-star <% if (campground.rating > 3.5) { %> checked-star <% } %>"
-          ></i>
-          <i
-            class="fas fa-star <% if (campground.rating > 4.5) { %> checked-star <% } %>"
-          ></i>
-          <em>(total reviews: <%= campground.reviews.length %>)</em>
-        </p>
-        <h5>Latest reviews for this campground:</h5>
-      </div>
+					<div class="col-md-12">
+						<div class="card-header rounded mb-3 px-2 py-2" style="border-bottom: 0;">
+						<p class="mb-0" style="text-align: justify; word-wrap: break-word;">
+							<%- review.text %>
+						</p>
+					</div>
 
-      <div class="card-body px-3 py-3">
-        <% campground.reviews.slice(0, 5).forEach(function(review){ %>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="mb-2">
-              Review by: <strong><%= review.author.username %></strong>
-              <span class="float-right">
-                <em><%= review.updatedAt.toDateString() %></em>
-              </span>
-              <br />
-              <%- '<i class="fas fa-star checked-star"></i
-              >'.repeat(review.rating) %><%- '<i class="fas fa-star"></i
-              >'.repeat(5 - review.rating) %>
-            </p>
-          </div>
-
-          <div class="col-md-12">
-            <div
-              class="card-header rounded mb-3 px-2 py-2"
-              style="border-bottom: 0;"
-            >
-              <p
-                class="mb-0"
-                style="text-align: justify; word-wrap: break-word;"
-              >
-                <%- review.text %>
-              </p>
-            </div>
-
-            <% if(currentUser && review.author.id.equals(currentUser._id) ||
-            currentUser && currentUser.isAdmin){ %>
-            <a
-              class="btn btn-warning"
-              href="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>/edit"
-            >
-              Edit Review
-            </a>
-            <form
-              class="ml-3 float-right"
-              style="display: inline;"
-              action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE"
-              method="POST"
-            >
-              <button class="btn btn-danger">
-                Delete Review
-              </button>
-            </form>
-            <% } %>
-          </div>
-        </div>
-        <hr />
-        <% }); %>
-
+					<% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+						<a class="btn btn-warning" href="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>/edit">
+							Edit Review
+						</a>
+						<form
+							class="ml-3 float-right"
+							style="display: inline;"
+							action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE"
+							method="POST">
+							
+							<button class="btn btn-danger">
+								Delete Review
+							</button>
+						</form>
+					<% } %>
+				</div>
+			<% }); %>
+		</div>
+		<hr/>
         <div class="text-center">
-          <h4>
-            <a href="/campgrounds/<%= campground._id %>/reviews">
-              <i class="fas fa-search"></i> See all reviews
-            </a>
-          </h4>
+        	<h4>
+            	<a href="/campgrounds/<%= campground._id %>/reviews">
+              		<span class="fas fa-search"></span> See all reviews
+            	</a>
+          	</h4>
         </div>
         <% } %>
         <div class="text-center">
@@ -146,8 +125,9 @@
       </div>
     </div>
   </div>
-  <!--Review section end-->
+  
 </div>
+<!--REVIEW SECTION END-->
 
 <!--COMMENT SECTION START-->
 <div class="row mb-4">
@@ -162,11 +142,11 @@
       aria-expanded="false"
       aria-controls="collapseExample"
     >
-      <i class="fas fa-plus"></i> Add new comment
+      <span class="fas fa-plus"></span> Add new comment
     </button>
     <!--Comment section title-->
     <h3 class="mb-3">
-      <strong>Comments </strong><i class="far fa-comment-alt"></i>
+      <strong>Comments </strong><span class="far fa-comment-alt"></span>
     </h3>
 
     <div class="collapse" id="collapseExample">
@@ -180,7 +160,7 @@
         <% } %> <% if(currentUser) { %>
         <!--If the user is logged in, show the new comment form-->
         <h4 class="mb-3">
-          Write your comment: <i class="fas fa-pencil-alt"></i>
+          Write your comment: <span class="fas fa-pencil-alt"></span>
         </h4>
         <!--Collapse Add a comment form START-->
         <form
@@ -189,7 +169,7 @@
           method="POST"
         >
           <div class="form-group col-md-4 pl-0 mb-0">
-            <input
+            <innput
               class="form-control"
               type="text"
               hidden
@@ -208,7 +188,7 @@
           </div>
           <div class="form-group mb-0">
             <button class="btn btn-success">
-              Post <i class="far fa-comments"></i>
+              Post <span class="far fa-comments"></span>
             </button>
           </div>
         </form>
@@ -237,10 +217,10 @@
                 <% if (currentUser && currentUser._id.equals(comment.author.id))
                 { %>
                 <!--If the current user owns the comment, change the color of the user icon-->
-                <i style="color: orange;" class="fas fa-user"></i>
+                <span style="color: orange;" class="fas fa-user"></span>
                 <% } else { %>
                 <!--Else just display it black-->
-                <i class="fas fa-user"></i>
+                <span class="fas fa-user"></span>
                 <% } %>
                 <!--Print out the author username-->
                 <%= comment.author.username %>
@@ -292,14 +272,14 @@
         <!--Edit comment form-->
         <div class="collapse" id="collapseEdit<%= comment._id %>">
           <div class="col-md-10 card card-body my-3">
-            <h4>Edit your comment <i class="fas fa-edit"></i></h4>
+            <h4>Edit your comment <span class="fas fa-edit"></span></h4>
             <form
               id="edit-comment-form"
               action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=PUT"
               method="POST"
             >
               <div class="form-group">
-                <input
+                <imput
                   class="form-control"
                   type="text"
                   hidden
@@ -320,7 +300,7 @@
               </div>
               <div class="form-group">
                 <button class="btn btn-warning">
-                  Edit comment <i class="far fa-comments"></i>
+                  Edit comment <span class="far fa-comments"></span>
                 </button>
               </div>
             </form>

@@ -17,12 +17,14 @@ var campgroundRoutes = require("./routes/campgrounds"),
   reviewRoutes = require("./routes/reviews"),
   indexRoutes = require("./routes/index");
 
-mongoose.connect(process.env.MONGO_DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).catch(err => {
-  console.log("MongoDB Connection failed !!! "+ err.message);
-});
+mongoose
+  .connect(process.env.MONGO_DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .catch(err => {
+    console.log("MongoDB Connection failed !!! " + err.message);
+  });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
