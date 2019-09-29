@@ -5,23 +5,11 @@ var express = require("express"),
   middleware = require("../middleware");
 
 // Reviews Index
-// router.get("/", function (req, res) {
-//     Campground.findById(req.params.id).populate({
-//         path: "reviews",
-//         options: { sort: { createdAt: -1 } } // sorting the populated reviews array to show the latest first
-//     }).exec(function (err, campground) {
-//         if (err || !campground) {
-//             req.flash("error", err.message);
-//             return res.redirect("back");
-//         }
-//         res.render("reviews/index", { campground: campground, showSearchForm: true });
-//     });
-// });
 router.get("/", function(req, res) {
   Campground.findById(req.params.id)
     .populate({
       path: "reviews",
-      options: { sort: Review.rating }
+      options: { sort: Review.rating } // sort: { createdAt: -1 } // sorting the populated reviews array to show the latest first
     })
     .exec(function(err, campground) {
       if (err || !campground) {
